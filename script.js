@@ -1,19 +1,11 @@
 const fs = require('fs');
-const readline = require('readline');
 
-const readableStream = fs.createReadStream('text.txt');
+fs.readFile('text.txt', 'utf8', function(err, data) {
 
-const lineReader = readline.createInterface({
-  input: readableStream,
-  crlfDelay: Infinity
-});
+  if (err) throw err;
 
-let wordCount = 0;
-lineReader.on('line', (line) => {
-  const words = line.split(' ').filter(word => word !== '');
-  wordCount += words.length;
-});
+  const words = data.match(/\S+/g);
 
-lineReader.on('close', () => {
-  console.log(`Кількість слів в тексті: ${wordCount}`);
+  console.log(words.length);
+
 });
